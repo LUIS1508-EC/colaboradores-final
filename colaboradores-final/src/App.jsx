@@ -1,33 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BaseColaboradores } from './assets/components/Colaboradores'
+import Listado from './assets/components/Listado'
+import Formulario from './assets/components/Formulario'
+import Buscador from './assets/components/Buscador'
+import "./App.css";
+import Alert from './assets/components/Alertas'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [colaboradores, setColaboradores] = useState(BaseColaboradores);
+  const [buscar, setBuscar] = useState('');
+  const [alerta, setAlerta] = useState({ error: false, mensaje: "", color: "" });
 
   return (
+
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container-fluid">
+        <div className="row titulo1">
+          <h1>Lista de Colaboradores</h1>
+        </div>
+        <div className="row buscador">
+          <Buscador buscaColaborador={setBuscar} />
+        </div>
+        <div className='lista'>
+          <Listado
+            colaboradores={colaboradores}
+            buscaColaborador={buscar}
+          />
+        </div>
+        <div className='titulo2'>
+          <h4 className="mb-2 pb-2">Agregar colaborador</h4>
+        </div>
+        <div className='formu'>
+          <Formulario
+            colaboradores={colaboradores}
+            setColaboradores={setColaboradores}
+            setAlerta = {setAlerta}
+            alerta = {alerta}
+          />
+        </div>
+        <div className='alerta'>
+          {alerta.error ? (
+            <Alert mensaje={alerta.mensaje} color={alerta.color} />
+          ) : null}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
